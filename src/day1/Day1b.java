@@ -3,23 +3,39 @@ package day1;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Day1b {
 	public static void main(String[] args) {
 		List<Integer> waterDepths = null;
+		int slidingWindowSize = 3;
+		String inputFileName = "day1a.txt";
+		
 		try {
-			waterDepths = readStringStreamFromFileToIntegerArray("day1a.txt");
+			waterDepths = readStringStreamFromFileToIntegerArray(inputFileName);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("unable to read file");
 			System.exit(0);
 		}
 		
-		int depthsGreaterThanPreviousDepths = countGreaterThanPreviousInList(waterDepths);
+		List<Integer> calculatedSlidingWindowValues = calculateSlidingWindow(waterDepths, slidingWindowSize);
+		
+		int depthsGreaterThanPreviousDepths = countGreaterThanPreviousInList(calculatedSlidingWindowValues);
 		
 		System.out.println(depthsGreaterThanPreviousDepths);
+	}
+	
+	static List<Integer> calculateSlidingWindow(List<Integer> list, int windowSize){
+		List<Integer> calculatedSlidingWindowValues = new ArrayList<Integer>();
+		
+		for (int i = 0; i <= list.size()-windowSize; i++) {
+			calculatedSlidingWindowValues.add(list.get(i) + list.get(i+1) + list.get(i+2));
+		}
+		
+		return calculatedSlidingWindowValues;
 	}
 	
 	static List<Integer> readStringStreamFromFileToIntegerArray(String fileName) throws IOException {

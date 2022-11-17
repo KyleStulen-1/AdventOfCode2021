@@ -5,21 +5,27 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
+import operations.StringStreamOperations;
+import operations.GeneralStreamOperations;
 
 public class Day1b {
 	public static void main(String[] args) {
-		List<Integer> waterDepths = null;
+		Stream<String> input = null;
 		int slidingWindowSize = 3;
 		String inputFileName = "day1a.txt";
 		
-		try {
-			waterDepths = readStringStreamFromFileToIntegerArray(inputFileName);
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("unable to read file");
-			System.exit(0);
-		}
+		input = readStringStreamFromFileToIntegerArray(inputFileName);
+
+		//////
+		Function<Stream<String>,Stream<Integer>> func = StringStreamOperations::toInteger;
+		
+		Function<Stream<Integer>,List<Integer>> func2 = GeneralStreamOperations::toList;
+		
+		List<Integer> waterDepths = func.andThen(func2).apply(input);
+		///////
 		
 		List<Integer> calculatedSlidingWindowValues = calculateSlidingWindow(waterDepths, slidingWindowSize);
 		
@@ -38,11 +44,17 @@ public class Day1b {
 		return calculatedSlidingWindowValues;
 	}
 	
-	static List<Integer> readStringStreamFromFileToIntegerArray(String fileName) throws IOException {
-		return Files.lines(Path.of(System.getProperty("user.dir"), "src", "inputs", fileName))
-				.map(Integer::valueOf)
-				.collect(Collectors.toList());
+	static Stream<String> readStringStreamFromFileToIntegerArray(String fileName) {
+		Stream<String> stream = null;
+		try {
+			stream = Files.lines(Path.of(System.getProperty("user.dir"), "src", "inputs", fileName));
+		} catch (IOException e) {
+			System.out.println(e);
+			System.exit(1);
+		}
+		return stream;
 	}
+	
 	
 	static int countGreaterThanPreviousInList(List<Integer> list) {
 		int counter = 0;

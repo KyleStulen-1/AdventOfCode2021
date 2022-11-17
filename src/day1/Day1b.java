@@ -17,7 +17,7 @@ public class Day1b {
 		int slidingWindowSize = 3;
 		String inputFileName = "day1a.txt";
 		
-		input = readStringStreamFromFileToIntegerArray(inputFileName);
+		input = readStringStreamFromFile(inputFileName);
 
 		//////
 		Function<Stream<String>,Stream<Integer>> func = StringStreamOperations::toInteger;
@@ -44,7 +44,7 @@ public class Day1b {
 		return calculatedSlidingWindowValues;
 	}
 	
-	static Stream<String> readStringStreamFromFileToIntegerArray(String fileName) {
+	static Stream<String> readStringStreamFromFile(String fileName) {
 		Stream<String> stream = null;
 		try {
 			stream = Files.lines(Path.of(System.getProperty("user.dir"), "src", "inputs", fileName));

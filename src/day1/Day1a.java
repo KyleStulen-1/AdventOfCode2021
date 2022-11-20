@@ -20,11 +20,13 @@ public class Day1a {
 		input = readStringStreamFromFile(inputFileName);
 
 		//////
-		Function<Stream<String>,Stream<Integer>> func = StringStreamOperations::toInteger;
+		Function<Stream<String>,Stream<Integer>> func1 = StringStreamOperations::toInteger;
 		
 		Function<Stream<Integer>,List<Integer>> func2 = GeneralStreamOperations::toList;
 		
-		List<Integer> waterDepths = func.andThen(func2).apply(input);
+		Function <Stream<String>,List<Integer>> func12 = func2.compose(func1);
+		
+		List<Integer> waterDepths = func12.apply(input);
 		///
 		
 		int depthsGreaterThanPreviousDepths = countGreaterThanPreviousInList(waterDepths);

@@ -3,19 +3,15 @@ package day1;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import fileReader.ScanFile;
 
 public class Day1b {
 	public static void main(String[] args) {
-		Stream<String> input = null;
 		int slidingWindowSize = 3;
 		String inputFileName = "day1a.txt";
 		
 		List<Integer> waterDepths = 
-				ScanFile.readFileToStringStream(
-					ScanFile.createLocalFilePath(inputFileName))
+				ScanFile.readAdventFile(inputFileName)
 				.map(Integer::valueOf)
 				.collect(Collectors.toList());
 		

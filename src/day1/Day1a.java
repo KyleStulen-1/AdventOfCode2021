@@ -10,8 +10,7 @@ public class Day1a {
 		String inputFileName = "day1a.txt";
 		
 		List<Integer> waterDepths = 
-			ScanFile.readFileToStringStream(
-				ScanFile.createLocalFilePath(inputFileName))
+			ScanFile.readAdventFile(inputFileName)
 			.map(Integer::valueOf)
 			.collect(Collectors.toList());
 		
